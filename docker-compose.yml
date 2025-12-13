@@ -23,6 +23,8 @@ services:
         condition: service_healthy
     ports:
       - "8000:8000"
+    volumes:
+      - ./server:/app
     environment:
       DATABASE_URL: postgresql://picsfeed:picsfeed@db:5432/picsfeed
 
@@ -32,3 +34,8 @@ services:
       - server
     ports:
       - "3000:3000"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    environment:
+      - WATCHPACK_POLLING=true

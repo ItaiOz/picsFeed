@@ -39,6 +39,7 @@ export const useAppRequests = (): UseAppRequestsReturn => {
     }
   };
 
+  // eslint-disable-next-line max-len
   const handleVote = async (imageId: number, voteType: string): Promise<void> => {
     try {
       const response = await fetch(`${API_URL}/vote`, {
@@ -52,6 +53,7 @@ export const useAppRequests = (): UseAppRequestsReturn => {
       // Refresh images to get updated counts
       fetchImages();
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error('Vote error:', err);
     }
   };
@@ -69,6 +71,7 @@ export const useAppRequests = (): UseAppRequestsReturn => {
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error('Export error:', err);
     }
   };

@@ -2,12 +2,9 @@ import { Container, Grid, CircularProgress, Alert, Box } from "@mui/material";
 import { Header } from "./components/Header";
 import { ImageCard } from "./components/ImageCard";
 import { useAppRequests } from "./hooks/useAppRequests";
-import "./App.css";
 
 export const App = () => {
   const { images, loading, error, handleVote, handleExport } = useAppRequests();
-
-  const a = "";
 
   if (loading) {
     return (
