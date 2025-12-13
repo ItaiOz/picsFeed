@@ -8,6 +8,7 @@ A full-stack image voting application built with React, FastAPI, and PostgreSQL.
 - Vote (like/dislike) on images
 - View live vote counts
 - Export votes to CSV
+- Reset all votes
 - Dockerized development environment with hot-reload
 
 ## Tech Stack
@@ -40,9 +41,18 @@ A full-stack image voting application built with React, FastAPI, and PostgreSQL.
    ```
 
 2. **Start the application with Docker Compose:**
+   
+   **First run:**
+   ```bash
+   docker-compose up --build -d
+   ```
+   
+   **Subsequent runs:**
    ```bash
    docker-compose up -d
    ```
+   
+   Note: Use `--build` flag only on first run or after dependency changes (package.json, requirements.txt) or Dockerfile modifications.
 
 3. **Access the application:**
    - **Frontend**: [http://localhost:3000](http://localhost:3000)
@@ -58,28 +68,43 @@ A full-stack image voting application built with React, FastAPI, and PostgreSQL.
 
 ```
 picsFeed/
-├── client/               # React frontend
+├── client/                      # React frontend
 │   ├── src/
-│   │   ├── components/  # React components
-│   │   ├── hooks/       # Custom hooks (API requests)
-│   │   └── App.tsx      # Main app component
+│   │   ├── components/         # React components
+│   │   │   ├── ImageCard.tsx
+│   │   │   ├── ImageCard.test.tsx
+│   │   │   ├── ImageCard.integration.test.tsx
+│   │   │   └── Header.tsx
+│   │   ├── hooks/              # Custom hooks (API requests)
+│   │   │   └── useAppRequests.ts
+│   │   ├── App.tsx             # Main app component
+│   │   └── App.test.tsx
 │   ├── Dockerfile
 │   └── package.json
-├── server/              # FastAPI backend
-│   ├── main.py          # API routes & startup logic
-│   ├── models.py        # SQLAlchemy models
-│   ├── database.py      # Database configuration
+├── server/                      # FastAPI backend
+│   ├── tests/                  # Server tests
+│   │   ├── test_main.py        # Unit tests
+│   │   └── test_integration.py # Integration tests
+│   ├── main.py                 # API routes & startup logic
+│   ├── models.py               # SQLAlchemy models
+│   ├── database.py             # Database configuration
 │   ├── Dockerfile
 │   └── requirements.txt
-└── docker-compose.yml   # Multi-container orchestration
+├── e2e/                         # End-to-end tests
+│   ├── tests/
+│   │   └── picsfeed.spec.ts    # Playwright E2E tests
+│   ├── playwright.config.ts
+│   └── package.json
+├── docker-compose.yml           # Development environment
+└── docker-compose.test.yml      # Test database environment
 ```
 
 ## API Endpoints
 
 - `GET /images` - Retrieve all images with vote counts
 - `POST /vote` - Submit a vote (like/dislike)
-- `GET /export` - Download votes as CSV
-- `GET /health` - Health check endpoint
+- `GET /export-votes` - Download votes as CSV
+- `POST /reset-votes` - Reset all votes to zero
 
 ## Development
 

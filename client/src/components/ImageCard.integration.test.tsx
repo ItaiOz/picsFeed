@@ -55,7 +55,6 @@ describe('ImageCard Integration Tests', () => {
     
     const likeButton = screen.getAllByRole('button')[0];
     
-    // Click multiple times rapidly
     await userEvent.click(likeButton);
     await userEvent.click(likeButton);
     await userEvent.click(likeButton);
@@ -101,6 +100,6 @@ describe('ImageCard Integration Tests', () => {
     const updatedImage = { ...mockImage, likes: mockImage.likes + 1 };
     rerender(<ImageCard image={updatedImage} onVote={mockOnVote} />);
     
-    expect(screen.getByText(/6/)).toBeInTheDocument(); // Updated likes
+    expect(screen.getByText(/6/)).toBeInTheDocument();
   });
 });

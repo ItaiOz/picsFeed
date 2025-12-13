@@ -11,6 +11,7 @@ import {
   ThumbUp,
   ThumbDown,
 } from '@mui/icons-material';
+import { memo } from 'react';
 
 interface Image {
   id: number;
@@ -24,7 +25,7 @@ interface ImageCardProps {
   onVote: (imageId: number, voteType: string) => void;
 }
 
-export const ImageCard = ({ image, onVote }: ImageCardProps) => {
+const ImageCardComponent = ({ image, onVote }: ImageCardProps) => {
   return (
     <Card
       data-testid="image-card"
@@ -84,3 +85,5 @@ export const ImageCard = ({ image, onVote }: ImageCardProps) => {
     </Card>
   );
 };
+
+export const ImageCard = memo(ImageCardComponent);
