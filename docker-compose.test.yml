@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  db-test:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: picsfeed
+      POSTGRES_PASSWORD: picsfeed
+      POSTGRES_DB: picsfeed_test
+      POSTGRES_HOST_AUTH_METHOD: md5
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U picsfeed"]
+      interval: 5s
+      timeout: 5s
+      retries: 5

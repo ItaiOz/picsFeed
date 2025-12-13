@@ -15,6 +15,7 @@ interface UseAppRequestsReturn {
   error: string | null;
   handleVote: (imageId: number, voteType: string) => Promise<void>;
   handleExport: () => Promise<void>;
+  handleReset: () => Promise<void>;
 }
 
 export const useAppRequests = (): UseAppRequestsReturn => {
@@ -60,7 +61,7 @@ export const useAppRequests = (): UseAppRequestsReturn => {
 
   const handleExport = async (): Promise<void> => {
     try {
-      const response = await fetch(`${API_URL}/export`);
+      const response = await fetch(`${API_URL}/export-votes`);
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -76,11 +77,28 @@ export const useAppRequests = (): UseAppRequestsReturn => {
     }
   };
 
+  const handleReset = async (): Promise<void> => {
+    try {
+      const response = await fetch(`${API_URL}/reset-votes`, {
+        method: 'POST',
+      });
+
+      if (!response.ok) throw new Error('Failed to reset votes');
+
+      // Refresh images to show reset counts
+      fetchImages();
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('Reset error:', err);
+    }
+  };
+
   return {
     images,
     loading,
     error,
     handleVote,
     handleExport,
+    handleReset,
   };
 }

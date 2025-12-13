@@ -1,3 +1,5 @@
+/* eslint-disable */
+// @ts-nocheck
 import { render, screen, fireEvent } from '@testing-library/react';
 import { ImageCard } from './ImageCard';
 

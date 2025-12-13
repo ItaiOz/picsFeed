@@ -90,22 +90,78 @@ The application is configured for hot-reload in Docker:
 
 ## Testing
 
-**Run backend tests:**
-```bash
-cd server
-pip install -r requirements.txt
-pytest
-```
+PicsFeed includes comprehensive test coverage with unit, integration, and end-to-end tests.
 
-**Run frontend tests:**
+### Client Tests (Unit + Integration)
+
 ```bash
 cd client
 npm test
 ```
 
-**Test Coverage:**
-- Backend: API endpoints, vote logic, data validation, CSV export
-- Frontend: Component rendering, user interactions, vote handling
+Runs all Jest tests including:
+- Unit tests (`.test.tsx`)
+- Integration tests (`.integration.test.tsx`)
+
+### Server Tests
+
+**Unit Tests:**
+```bash
+cd server
+.\venv\Scripts\Activate.ps1
+$env:DATABASE_URL="postgresql://picsfeed:picsfeed@localhost:5432/picsfeed"
+pytest tests/test_main.py -v
+```
+
+**Integration Tests:**
+```bash
+# Start test database
+docker-compose -f docker-compose.test.yml up -d
+
+# Run integration tests
+cd server
+.\venv\Scripts\Activate.ps1
+$env:TEST_DATABASE_URL="postgresql://picsfeed:picsfeed@localhost:5433/picsfeed_test"
+pytest tests/test_integration.py -v
+
+# Cleanup
+docker-compose -f docker-compose.test.yml down -v
+```
+
+### End-to-End Tests (Playwright)
+
+**First time setup:**
+```bash
+cd e2e
+npm install
+npx playwright install
+```
+
+**Run E2E tests:**
+```bash
+# Make sure app is running first
+docker-compose up -d
+
+# Run tests
+cd e2e
+npm test                # Headless mode
+npm run test:headed     # Watch in browser
+npm run test:ui         # Interactive UI mode
+```
+
+### Test Coverage
+
+Run with coverage report:
+```bash
+# Server coverage
+cd server
+pytest --cov=. --cov-report=html tests/
+# Open htmlcov/index.html
+
+# Client coverage
+cd client
+npm test -- --coverage --watchAll=false
+```
 
 ## Database Seeding
 

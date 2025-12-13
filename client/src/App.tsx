@@ -4,7 +4,14 @@ import { ImageCard } from "./components/ImageCard";
 import { useAppRequests } from "./hooks/useAppRequests";
 
 export const App = () => {
-  const { images, loading, error, handleVote, handleExport } = useAppRequests();
+  const {
+    images,
+    loading,
+    error,
+    handleVote,
+    handleExport,
+    handleReset,
+  } = useAppRequests();
 
   if (loading) {
     return (
@@ -29,8 +36,7 @@ export const App = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Header onExport={handleExport} />
-
+      <Header onExport={handleExport} onReset={handleReset} />
       <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
         <Grid container spacing={3}>
           {images.map((image) => (

@@ -91,8 +91,8 @@ def test_export_csv():
     db.commit()
     db.close()
 
-    response = client.get("/export")
+    response = client.get("/export-votes")
     assert response.status_code == 200
     assert response.headers["content-type"] == "text/csv; charset=utf-8"
-    assert "Vote ID" in response.text
-    assert "Image ID" in response.text
+    assert "image_id" in response.text
+    assert "url" in response.text

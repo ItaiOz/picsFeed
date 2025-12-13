@@ -27,6 +27,7 @@ interface ImageCardProps {
 export const ImageCard = ({ image, onVote }: ImageCardProps) => {
   return (
     <Card
+      data-testid="image-card"
       sx={{
         height: '100%',
         display: 'flex',
@@ -55,6 +56,7 @@ export const ImageCard = ({ image, onVote }: ImageCardProps) => {
           color="success"
           onClick={() => onVote(image.id, 'like')}
           size="small"
+          aria-label="like"
         >
           <ThumbUp />
           <Chip
@@ -68,6 +70,7 @@ export const ImageCard = ({ image, onVote }: ImageCardProps) => {
           color="error"
           onClick={() => onVote(image.id, 'dislike')}
           size="small"
+          aria-label="dislike"
         >
           <ThumbDown />
           <Chip

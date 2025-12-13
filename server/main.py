@@ -95,20 +95,37 @@ def create_vote(vote: VoteRequest, db: Session = Depends(get_db)):
     return {"message": "Vote recorded successfully"}
 
 
-@app.get("/export")
+@app.get("/export-votes")
 def export_votes(db: Session = Depends(get_db)):
-    votes = db.query(Vote).all()
+    images = db.query(Image).all()
 
     output = io.StringIO()
     writer = csv.writer(output)
 
-    writer.writerow(["Vote ID", "Image ID", "Vote Type", "Created At"])
+    writer.writerow(["image_id", "url", "likes", "dislikes"])
 
-    for vote in votes:
-        writer.writerow([vote.id, vote.image_id, vote.vote_type, vote.created_at])
+    for image in images:
+        likes = (
+            db.query(func.count(Vote.id))
+            .filter(Vote.image_id == image.id, Vote.vote_type == "like")
+            .scalar() or 0
+        )
+        dislikes = (
+            db.query(func.count(Vote.id))
+            .filter(Vote.image_id == image.id, Vote.vote_type == "dislike")
+            .scalar() or 0
+        )
+        writer.writerow([image.id, image.url, likes, dislikes])
 
     return Response(
         content=output.getvalue(),
         media_type="text/csv",
         headers={"Content-Disposition": "attachment; filename=votes.csv"},
     )
+
+
+@app.post("/reset-votes")
+def reset_votes(db: Session = Depends(get_db)):
+    db.query(Vote).delete()
+    db.commit()
+    return {"message": "All votes have been reset"}
