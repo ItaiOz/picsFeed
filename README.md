@@ -162,10 +162,7 @@ npx playwright install
 
 **Run E2E tests:**
 ```bash
-# Make sure app is running first
-docker-compose up -d
-
-# Run tests
+# E2E tests automatically start the test environment (docker-compose.test.yml)
 cd e2e
 npm test                # Headless mode
 npm run test:headed     # Watch in browser

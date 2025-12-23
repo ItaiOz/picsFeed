@@ -25,10 +25,16 @@ test.describe('PicsFeed E2E Tests', () => {
     
     const firstCard = page.locator('[data-testid="image-card"]').first();
     
+    const likeChip = firstCard.locator('button[aria-label="like"]').locator('.MuiChip-label');
+    const initialCount = await likeChip.textContent();
+    
     const likeButton = firstCard.locator('button[aria-label="like"]');
     await likeButton.click();
     
     await page.waitForTimeout(500);
+    
+    const newCount = await likeChip.textContent();
+    expect(parseInt(newCount!)).toBe(parseInt(initialCount!) + 1);
   });
 
 

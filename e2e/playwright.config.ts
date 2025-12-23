@@ -30,7 +30,7 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: 'docker-compose up',
+    command: 'docker-compose -f docker-compose.test.yml up',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,
